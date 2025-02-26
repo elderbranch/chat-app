@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useChatStore } from "../../entities/chatStore/useChatStore";
 import { useAuthStore } from "../../entities/authStore/useAuthStore";
 
@@ -43,15 +44,17 @@ const ChatContainer = () => {
           <div key={message._id} className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
             ref={messageRef}
           >
-            <div className="chat-image avatar">
-              <div className="size-10 rounded-full border">
-                <img src={
-                  message.senderId === authUser._id
-                    ? authUser.profilePic || "avatar.png"
-                    : selectedUser.profilePic || "avatar.png"}
-                />
-              </div>
+            <Link to={`/profile/${message.senderId === authUser._id ? "" : selectedUser._id}`}>
+              <div className="chat-image avatar">
+                <div className="size-10 rounded-full border">
+                  <img src={
+                    message.senderId === authUser._id
+                      ? authUser.profilePic || "avatar.png"
+                      : selectedUser.profilePic || "avatar.png"}
+                  />
+                </div>
             </div>
+            </Link>
             <div className="chat-header mb-1">
               <time
                 className="text-xs opacity-50 ml-1"

@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../../entities/authStore/useAuthStore";
 import { LogOut, MessageSquare, Settings, User } from "lucide-react";
+import Modal from "../../../shared/ui/Modal";
 
 const NavBar = () => {
   const { logOut, authUser } = useAuthStore();
-  const handler = () => {
-    console.log(authUser);
-    
-  }
+
   return (
     <header className="border-b border-base-300 fixed w-full top-0 z-40 backdrop-blur-lg bg-base-100/80">
       <div className="container mx-auto px-4 h-16">
@@ -32,9 +30,8 @@ const NavBar = () => {
                 <User className="size-5" />
                 <span className="hidden sm:inline">Profile</span>
               </Link>
-              <button className="flex gap-2 items-center btn btn-sm gap-2" onClick={logOut}>
-                <LogOut className="size-5" />
-                <span className="hidden sm:inline">Logout</span>
+              <button className="flex gap-2 items-center btn btn-sm cursor-pointe" >
+                <Modal text="Logout"  func={logOut} icon={<LogOut className="w-4 h-4"/>}/>
               </button>
             </>
             )}

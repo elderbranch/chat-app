@@ -11,6 +11,7 @@ import SettingsPage from "../pages/settingsPage/settingsPage";
 import { NavBar } from "../features/navbar";
 import { useAuthStore } from "../entities/authStore/useAuthStore";
 import { useThemeStore } from "../entities/themeStore/useThemeStore";
+import AnotherUserPage from "../pages/AnotherUser/AnotherUser";
 
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/signUp" element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
           <Route path="/logIn" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
           <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
+          <Route path="/profile/:id" element={authUser ? <AnotherUserPage /> : <Navigate to="/login" />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
         <Toaster
