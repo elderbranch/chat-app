@@ -1,5 +1,3 @@
-
-
 const Modal = ({func, text, icon}) => {
   return (
     <>

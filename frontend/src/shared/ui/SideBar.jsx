@@ -29,25 +29,44 @@ const SideBar = () => {
     ? users.filter(user => onlineUsers.includes(user._id))
     : users.filter(user => user.fullName.toLowerCase().includes(String(searchText).toLowerCase()));
 
-  const handleMouseDown = () => {
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
-  const handleMouseMove = (e) => {
-    const newWidth = e.clientX - sidebarRef.current.getBoundingClientRect().left;
-    if (newWidth > 180 && newWidth < 800) { 
-      setSidebarWidth(newWidth);
+    const handleMouseDown = () => {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
     };
-    if (newWidth < 180) {
-      handleResize();
-    }
-  };
-
-  const handleMouseUp = () => {
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', handleMouseUp);
-  };
+  
+    const handleTouchStart = () => {
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+    };
+  
+    const handleMouseMove = (e) => {
+      resizeSidebar(e.clientX);
+    };
+  
+    const handleTouchMove = (e) => {
+      resizeSidebar(e.touches[0].clientX);
+    };
+  
+    const resizeSidebar = (positionX) => {
+      const newWidth = positionX - sidebarRef.current.getBoundingClientRect().left;
+      if (newWidth > 180 && newWidth < 800) {
+        setSidebarWidth(newWidth);
+      } 
+      if (newWidth < 180) {
+        handleResize(); // Возможно, функция скрытия
+      }
+    };
+  
+    const handleMouseUp = () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  
+    const handleTouchEnd = () => {
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+  
 
   if (isUsersLoading) return <SidebarSkeleton />
   

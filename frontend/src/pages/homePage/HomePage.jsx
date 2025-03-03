@@ -2,7 +2,6 @@ import { useChatStore } from "../../entities/chatStore/useChatStore"
 import ChatContainer from "../../widgets/chat/ChatContainer";
 import NoChatSelected from "../../shared/ui/NoChatSelected";
 import SideBar from "../../shared/ui/SideBar";
-// bg-base-200
 
 const HomePage = () => {
   const { selectedUser } = useChatStore();

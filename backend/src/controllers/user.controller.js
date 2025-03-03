@@ -3,26 +3,33 @@ import User from "../models/user.model.js";
 
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePic } = req.body;
+    const { profilePic, fullName } = req.body;
     const userId = req.user._id;
-
-    if (!profilePic) {
-      return res.status(400).json({ message: "Profile pic is required" });
+    
+    if (!profilePic && !fullName) {
+      return res.status(400).json({ message: "No data provided to update" });
     }
-
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { profilePic: uploadResponse.secure_url },
-      { new: true }
-    );
-
+    
+    let updateFields = {};
+    
+    if (profilePic) {
+      const uploadResponse = await cloudinary.uploader.upload(profilePic);
+      updateFields.profilePic = uploadResponse.secure_url;
+    }
+    
+    if (fullName) {
+      updateFields.fullName = fullName;
+    }
+    
+    const updatedUser = await User.findByIdAndUpdate(userId, updateFields, { new: true });
+    
     res.status(200).json(updatedUser);
   } catch (error) {
-    console.log("error in update profile:", error);
+    console.error("Error in update profile:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 export const checkAuth = (req, res) => {
   try {

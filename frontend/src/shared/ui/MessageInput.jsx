@@ -1,6 +1,8 @@
-import { useRef, useState } from "react"
 import { useChatStore } from "../../entities/chatStore/useChatStore";
-import { Image, Send, X } from "lucide-react";
+
+import { useRef, useState } from "react"
+import { Image, Send, X, Smile} from "lucide-react";
+import EmojiPicker from "emoji-picker-react";
 import toast from "react-hot-toast";
 
 
@@ -9,6 +11,8 @@ const MessageInput = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
   const { sendMessage } = useChatStore();
+
+  const [showPicker, setShowPicker] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -22,6 +26,10 @@ const MessageInput = () => {
       setImagePreview(reader.result);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleEmojiClick = (emojiObject) => {
+    setText((prev) => prev + emojiObject.emoji);
   };
 
   const removeImage = () => {
@@ -74,6 +82,14 @@ const MessageInput = () => {
 
       <form onSubmit={handleSendMessage} className="flex items-center gap-2">
         <div className="flex-1 flex gap-2">
+          <button onClick={() => setShowPicker(!showPicker)} className="z-20 bg-base-100 rounded-full p-2">
+            <Smile size={22} />
+          </button>
+          {showPicker && (
+        <div className="absolute top-[45%] left-[10%] z-10">
+          <EmojiPicker onEmojiClick={handleEmojiClick}/>
+        </div>
+      )}
           <input
             type="text"
             className="w-full input input-bordered rounded-lg input-sm sm:input-md"
@@ -88,7 +104,6 @@ const MessageInput = () => {
             ref={fileInputRef}
             onChange={handleImageChange}
           />
-
           <button
             type="button"
             className={`hidden sm:flex btn btn-circle

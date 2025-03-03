@@ -31,7 +31,7 @@ const NavBar = () => {
                 <span className="hidden sm:inline">Profile</span>
               </Link>
               <button className="flex gap-2 items-center btn btn-sm cursor-pointe" >
-                <Modal text="Logout"  func={logOut} icon={<LogOut className="w-4 h-4"/>}/>
+                <Modal text="Logout" func={logOut} icon={<LogOut className="w-4 h-4"/>}/>
               </button>
             </>
             )}
